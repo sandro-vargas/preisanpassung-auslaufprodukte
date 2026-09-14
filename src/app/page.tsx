@@ -6,6 +6,8 @@ import { DataImport } from "@/components/DataImport";
 import { AnalysisDashboard } from "@/components/AnalysisDashboard";
 import { CustomerCommunication } from "@/components/CustomerCommunication";
 import { ProductClientFinder } from "@/components/ProductClientFinder";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/hooks/useAuth";
 import { RawPricingRow } from "@/lib/types";
 import { aggregateRawPricing, calculateClientKpis } from "@/lib/aggregator";
 import { generateSampleData } from "@/lib/mock-data";
@@ -19,6 +21,14 @@ import {
 import { ShieldCheck } from "lucide-react";
 
 export default function Home() {
+  const {
+    isAuthenticated,
+    isLoading: isAuthLoading,
+    authError,
+    loginWithPassword,
+    dashboardUrl
+  } = useAuth();
+
   const [activeTab, setActiveTab] = useState<"pricing" | "finder" | "communication">("pricing");
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -175,7 +185,7 @@ export default function Home() {
     return set.size;
   }, [aggregatedProducts]);
 
-  if (isInitializing) {
+  if (isAuthLoading || isInitializing) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
         <div className="text-center">
@@ -189,6 +199,16 @@ export default function Home() {
     );
   }
 
+  if (!isAuthenticated) {
+    return (
+      <AuthGate
+        onLogin={loginWithPassword}
+        error={authError}
+        dashboardUrl={dashboardUrl}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       {/* Top Header Navigation */}
@@ -199,6 +219,7 @@ export default function Home() {
         totalProducts={uniqueProductCount}
         totalClients={clientsList.length}
         onResetData={handleResetData}
+        dashboardUrl={dashboardUrl}
       />
 
       {/* Main Container */}

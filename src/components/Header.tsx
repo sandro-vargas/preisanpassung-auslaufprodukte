@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Edit3, Mail, RefreshCw, Search } from "lucide-react";
+import { Edit3, Mail, RefreshCw, Search, LayoutDashboard } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "pricing" | "finder" | "communication";
@@ -10,6 +10,7 @@ interface HeaderProps {
   totalProducts: number;
   totalClients: number;
   onResetData: () => void;
+  dashboardUrl?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,7 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   totalRows,
   totalClients,
-  onResetData
+  onResetData,
+  dashboardUrl = "https://ev-dashboard.vercel.app"
 }) => {
   return (
     <header className="bg-[#191A1B] text-white border-b border-[#2A2B2D] sticky top-0 z-40 shadow-md no-print">
@@ -96,7 +98,17 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Data Status & Actions (Right, compact and sleek) */}
-          <div className="hidden md:flex items-center space-x-3 shrink-0">
+          <div className="hidden md:flex items-center space-x-2.5 shrink-0">
+            {/* Direct Link back to EV Dashboard */}
+            <a
+              href={dashboardUrl}
+              className="flex items-center space-x-1.5 text-xs text-gray-300 hover:text-white bg-[#242628] hover:bg-[#2e3134] px-2.5 py-1.5 rounded-lg border border-gray-700/80 transition-all font-medium whitespace-nowrap shadow-2xs"
+              title="Zurück zum zentralen Ernesto Vargas Dashboard"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#fe5600]" />
+              <span className="hidden xl:inline">EV Dashboard</span>
+            </a>
+
             {totalRows > 0 ? (
               <div className="flex items-center space-x-2.5 text-xs bg-[#242628] px-3 py-1.5 rounded-lg border border-gray-700/80 whitespace-nowrap">
                 <div className="flex items-center space-x-1.5 text-gray-300">
