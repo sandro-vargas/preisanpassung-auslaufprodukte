@@ -14,7 +14,11 @@ import {
   Layers,
   Sparkles,
   TrendingUp,
-  Percent
+  Percent,
+  Clock,
+  AlertCircle,
+  CheckCircle2,
+  ArrowRight
 } from "lucide-react";
 import { AggregatedProduct } from "@/lib/types";
 import { formatCHF, formatPercent } from "@/lib/utils";
@@ -314,7 +318,7 @@ export const CustomerCommunication: React.FC<CustomerCommunicationProps> = ({
             }`}
           >
             <Download className="w-4 h-4 text-[#fe5600]" />
-            <span>3. ERP-Export (Bexio / Odoo)</span>
+            <span>3. B2B-Shop Upload (Ernesto Vargas)</span>
           </button>
         </div>
       </div>
@@ -656,116 +660,180 @@ export const CustomerCommunication: React.FC<CustomerCommunicationProps> = ({
         </div>
       )}
 
-      {/* SUB-VIEW 3: ERP EXPORT */}
+      {/* SUB-VIEW 3: B2B-SHOP UPLOAD */}
       {activeSubTab === "erp_export" && (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
-          <div className="flex items-start justify-between border-b border-slate-100 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
             <div>
-              <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <FileSpreadsheet className="w-5 h-5 text-[#fe5600]" />
-                <span>ERP-Export (Bexio / Odoo)</span>
-              </h3>
+                <h3 className="font-bold text-slate-900 text-lg">
+                  Ernesto Vargas B2B-Shop Upload
+                </h3>
+                <span className="text-[11px] font-bold uppercase tracking-wider bg-orange-100 text-[#fe5600] px-2.5 py-0.5 rounded-full border border-orange-200">
+                  Import Client Prices
+                </span>
+              </div>
               <p className="text-xs text-slate-500 mt-1">
-                Generieren Sie vorkonfigurierte Import-Dateien mit allen Varianten, neu eingetragenen Preisen und prozentualen Veränderungen.
+                Generieren Sie die Re-Import-Datei für den Ernesto Vargas B2B-Shop mit allen Varianten und neuen Kundenpreisen.
               </p>
+            </div>
+
+            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-xs text-slate-700 font-semibold self-start sm:self-auto">
+              <Calendar className="w-3.5 h-3.5 text-[#fe5600]" />
+              <span>Gültig ab: <strong>{effectiveDate}</strong></span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Box 1: Bexio Export */}
-            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-bold text-slate-900 text-base">Bexio Re-Import</h4>
-                  <span className="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">
-                    Bexio Standard
-                  </span>
+          {/* Workflow Guide: 4 Steps */}
+          <div className="bg-slate-50/80 rounded-xl border border-slate-200 p-5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#53565A] mb-3 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#fe5600]" />
+              <span>Standard-Ablauf für Preisanpassungen im B2B-Shop</span>
+            </h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-2xs relative flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
+                      1
+                    </span>
+                    <span className="text-[10px] uppercase font-semibold text-slate-400">Shop-Admin</span>
+                  </div>
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">Export im Shop</h5>
+                  <p className="text-[11px] text-slate-600 leading-snug">
+                    Im Shop-Admin unter <em>«Export Company Products with Discounts»</em> die aktuellen Preise exportieren.
+                  </p>
                 </div>
-                <p className="text-xs text-slate-600 mb-4 leading-relaxed">
-                  Exportiert Spalten für Kundenkonditionen: <code>Kunde</code>, <code>Artikelnummer</code>, <code>Katalogpreis CHF</code>, <code>Kundenpreis CHF</code>, <code>Anpassung %</code>, <code>Gültig ab</code>.
-                </p>
               </div>
 
-              <div className="space-y-2 pt-4 border-t border-slate-200">
-                <button
-                  onClick={() =>
-                    exportPricingData(products, {
-                      clientName: selectedClient,
-                      targetSystem: "bexio",
-                      format: "xlsx",
-                      effectiveDate,
-                      manualPrices
-                    })
-                  }
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-[#fe5600] text-xs font-bold text-slate-800 shadow-xs"
-                >
-                  <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-                  <span>Nur &quot;{selectedClient}&quot; als Bexio-Excel (.xlsx)</span>
-                </button>
+              <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-2xs relative flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
+                      2
+                    </span>
+                    <span className="text-[10px] uppercase font-semibold text-slate-400">B2B Suite</span>
+                  </div>
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">Preise kalkulieren</h5>
+                  <p className="text-[11px] text-slate-600 leading-snug">
+                    Datei hier importieren und Preise anpassen (Pauschal-Aufschlag % oder individuelle Einzelpreise).
+                  </p>
+                </div>
+              </div>
 
-                <button
-                  onClick={() =>
-                    exportPricingData(products, {
-                      targetSystem: "bexio",
-                      format: "xlsx",
-                      effectiveDate,
-                      manualPrices
-                    })
-                  }
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#53565A] hover:bg-slate-700 text-xs font-bold text-white shadow-xs"
-                >
-                  <Download className="w-4 h-4 text-[#fe5600]" />
-                  <span>Alle Kunden als Bexio-Excel exportieren</span>
-                </button>
+              <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-2xs relative flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-orange-100 text-[#fe5600] font-bold text-xs flex items-center justify-center">
+                      3
+                    </span>
+                    <span className="text-[10px] uppercase font-semibold text-[#fe5600]">Exportieren</span>
+                  </div>
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">Excel herunterladen</h5>
+                  <p className="text-[11px] text-slate-600 leading-snug">
+                    Unten die Excel-Datei für <strong>«{selectedClient}»</strong> oder <strong>alle Kunden</strong> herunterladen.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-2xs relative flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">
+                      4
+                    </span>
+                    <span className="text-[10px] uppercase font-semibold text-emerald-600">Live-Schaltung</span>
+                  </div>
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">Import Client Prices</h5>
+                  <p className="text-[11px] text-slate-600 leading-snug">
+                    Im Shop-Admin hochladen, Vorschau prüfen &amp; bestätigen. Die neuen Preise sind sofort aktiv.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Important Notice & Technical Specs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+              <Clock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="text-xs text-amber-900 space-y-1">
+                <span className="font-bold block text-sm text-amber-950">
+                  Wichtiger Hinweis zum Aktivierungszeitpunkt
+                </span>
+                <p className="leading-relaxed">
+                  Neue Preise sind <strong>unmittelbar nach dem Upload</strong> im Ernesto Vargas B2B-Shop aktiv. Wenn neue Preise ab einem bestimmten Stichtag (z. B. <strong>01.01.2027</strong>) gelten sollen, laden Sie die fertige Excel-Datei erst an diesem Tag im Shop-Admin hoch.
+                </p>
               </div>
             </div>
 
-            {/* Box 2: Odoo Export */}
-            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="text-xs text-slate-700 space-y-1">
+                <span className="font-bold block text-sm text-slate-900">
+                  Geprüftes Shop-Spaltenlayout
+                </span>
+                <p className="leading-relaxed">
+                  Die Export-Datei enthält die vollständige Preisliste mit allen Positionen. Die Spalte <code className="bg-white px-1.5 py-0.5 rounded border border-slate-300 font-bold text-slate-900">Kundenpreis CHF</code> steuert die neuen Preise (exkl. MWST). <code className="bg-white px-1 py-0.5 rounded text-slate-700">Kunde</code>, <code className="bg-white px-1 py-0.5 rounded text-slate-700">Artikelnummer</code> und IDs sichern die exakte Zuordnung.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Export Action Card */}
+          <div className="bg-gradient-to-br from-slate-900 via-[#1e2022] to-[#53565A] text-white rounded-xl p-6 shadow-md border border-slate-700">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-bold text-slate-900 text-base">Odoo Pricelist Import</h4>
-                  <span className="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">
-                    Odoo ERP
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 mb-4 leading-relaxed">
-                  Exportiert formatierte Preislisten-Einträge: <code>Partner / Kunde</code>, <code>Internal Reference</code>, <code>Fixed Price</code>, <code>Delta %</code>, <code>Start Date</code>.
+                <span className="text-[11px] font-bold uppercase tracking-wider text-orange-400">
+                  Excel-Datei generieren
+                </span>
+                <h4 className="text-lg font-bold text-white mt-0.5">
+                  Preise für Ernesto Vargas B2B-Shop bereitstellen
+                </h4>
+                <p className="text-xs text-slate-300 mt-1">
+                  Format: .xlsx (Excel Arbeitsmappe) mit allen Varianten und kalkulierten Kundenpreisen
                 </p>
               </div>
 
-              <div className="space-y-2 pt-4 border-t border-slate-200">
-                <button
-                  onClick={() =>
-                    exportPricingData(products, {
-                      clientName: selectedClient,
-                      targetSystem: "odoo",
-                      format: "csv",
-                      effectiveDate,
-                      manualPrices
-                    })
-                  }
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-[#fe5600] text-xs font-bold text-slate-800 shadow-xs"
-                >
-                  <FileText className="w-4 h-4 text-purple-600" />
-                  <span>Nur &quot;{selectedClient}&quot; als Odoo-CSV (.csv)</span>
-                </button>
-
-                <button
-                  onClick={() =>
-                    exportPricingData(products, {
-                      targetSystem: "odoo",
-                      format: "csv",
-                      effectiveDate,
-                      manualPrices
-                    })
-                  }
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#53565A] hover:bg-slate-700 text-xs font-bold text-white shadow-xs"
-                >
-                  <Download className="w-4 h-4 text-[#fe5600]" />
-                  <span>Alle Kunden als Odoo-CSV exportieren</span>
-                </button>
+              <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg text-xs font-semibold self-start md:self-auto border border-white/10">
+                <Building2 className="w-3.5 h-3.5 text-orange-400" />
+                <span>Aktueller Filter: <strong className="text-white">{selectedClient}</strong></span>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <button
+                onClick={() =>
+                  exportPricingData(products, {
+                    clientName: selectedClient,
+                    targetSystem: "b2b_shop",
+                    format: "xlsx",
+                    effectiveDate,
+                    manualPrices
+                  })
+                }
+                className="flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-[#fe5600] hover:bg-[#e04c00] text-white text-xs sm:text-sm font-bold shadow-lg transition-all transform active:scale-98 cursor-pointer"
+              >
+                <FileSpreadsheet className="w-4 h-4 text-white" />
+                <span>Nur &quot;{selectedClient}&quot; für B2B-Shop exportieren (.xlsx)</span>
+              </button>
+
+              <button
+                onClick={() =>
+                  exportPricingData(products, {
+                    targetSystem: "b2b_shop",
+                    format: "xlsx",
+                    effectiveDate,
+                    manualPrices
+                  })
+                }
+                className="flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/20 shadow-sm transition-all transform active:scale-98 cursor-pointer"
+              >
+                <Download className="w-4 h-4 text-orange-400" />
+                <span>Alle Kunden für B2B-Shop exportieren (.xlsx)</span>
+              </button>
             </div>
           </div>
         </div>

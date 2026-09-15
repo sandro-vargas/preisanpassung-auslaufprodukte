@@ -281,7 +281,7 @@ export function exportMatchingClientsToExcel(
       "Geführte Grössen": m.sizes.join(", "),
       "Anzahl Varianten": m.variantCount,
       "Artikelnummern": m.productCodes.join(", "),
-      "Katalogpreis Bexio (CHF)": bexioText,
+      "Katalogpreis (CHF)": bexioText,
       "Kundenpreis (CHF)": priceText,
       "Rabatt / Abschlag (%)": `-${m.avgDiscountPercent.toFixed(1)} %`,
       "Suchkriterien": [

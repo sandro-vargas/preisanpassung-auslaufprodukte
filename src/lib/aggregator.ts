@@ -80,6 +80,7 @@ export function aggregateRawPricing(rows: RawPricingRow[]): AggregatedProduct[] 
       sizeSet.add(r.size.trim());
       colourSet.add(r.colour.trim());
       return {
+        articleId: r.articleId,
         productCode: r.productCode,
         colour: r.colour.trim(),
         size: r.size.trim(),
@@ -142,6 +143,7 @@ export function aggregateRawPricing(rows: RawPricingRow[]): AggregatedProduct[] 
 
     result.push({
       id: key,
+      clientId: groupRows[0]?.clientId,
       client,
       productName,
       variantCount,

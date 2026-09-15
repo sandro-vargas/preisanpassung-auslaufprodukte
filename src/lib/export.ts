@@ -3,7 +3,7 @@ import { AggregatedProduct } from "./types";
 
 export interface ExportOptions {
   clientName?: string; // if provided, only this client
-  targetSystem: "bexio" | "odoo" | "standard";
+  targetSystem: "b2b_shop" | "bexio" | "odoo" | "standard";
   format: "xlsx" | "csv";
   effectiveDate?: string;
   manualPrices?: Record<string, number>;
@@ -47,20 +47,27 @@ export function exportPricingData(
       const deltaPercent = oldPrice > 0 ? Number((((newPrice - oldPrice) / oldPrice) * 100).toFixed(2)) : 0;
       const platformPriceVat = Number((newPrice * 1.081).toFixed(2));
 
-      if (options.targetSystem === "bexio") {
-        // Standard Bexio customer pricing import format
-        exportRows.push({
-          "Kunde": prod.client,
-          "Artikelnummer": v.productCode,
-          "Artikelbezeichnung": `${prod.productName} (${v.colour}, ${v.size})`,
-          "Katalogpreis CHF": v.bexioPrice,
-          "Kundenpreis CHF": newPrice,
-          "Bisheriger Kundenpreis CHF": oldPrice,
-          "Differenz CHF": deltaCHF,
-          "Anpassung %": deltaPercent,
-          "Rabattart": v.discountType || "Fixed Price",
-          "Gültig ab": options.effectiveDate || new Date().toISOString().split("T")[0]
-        });
+      if (options.targetSystem === "b2b_shop" || options.targetSystem === "bexio") {
+        // Ernesto Vargas B2B-Shop bulk price import format («Import Client Prices»)
+        const row: Record<string, string | number> = {};
+        if (prod.clientId) {
+          row["Client ID"] = prod.clientId;
+        }
+        row["Kunde"] = prod.client;
+        if (v.articleId) {
+          row["Article ID"] = v.articleId;
+        }
+        row["Artikelnummer"] = v.productCode;
+        row["Artikelbezeichnung"] = `${prod.productName} (${v.colour}, ${v.size})`;
+        row["Katalogpreis CHF"] = v.bexioPrice;
+        row["Kundenpreis CHF"] = newPrice;
+        row["Bisheriger Kundenpreis CHF"] = oldPrice;
+        row["Differenz CHF"] = deltaCHF;
+        row["Anpassung %"] = deltaPercent;
+        row["Rabattart"] = v.discountType || "Fixed Price";
+        row["Gültig ab"] = options.effectiveDate || new Date().toISOString().split("T")[0];
+
+        exportRows.push(row);
       } else if (options.targetSystem === "odoo") {
         // Standard Odoo pricelist item format
         exportRows.push({
@@ -108,7 +115,8 @@ export function exportPricingData(
 
   const cleanClient = options.clientName ? `_${options.clientName.replace(/[^a-zA-Z0-9]/g, "_")}` : "_Gesamt";
   const dateStr = new Date().toISOString().split("T")[0];
-  const filename = `Ernesto_Vargas_Preise_${options.targetSystem}${cleanClient}_${dateStr}.${options.format}`;
+  const systemLabel = options.targetSystem === "b2b_shop" ? "B2B_Shop_Kundenpreise" : `Preise_${options.targetSystem}`;
+  const filename = `Ernesto_Vargas_${systemLabel}${cleanClient}_${dateStr}.${options.format}`;
 
   if (options.format === "csv") {
     // Generate CSV (semicolon separated for DACH/CH Excel compatibility)

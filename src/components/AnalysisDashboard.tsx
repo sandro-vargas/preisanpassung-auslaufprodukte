@@ -490,7 +490,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
                   className="py-3.5 px-4 text-right cursor-pointer hover:text-[#fe5600] transition-colors"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>Bexio-Preis (CHF)</span>
+                    <span>Katalogpreis (CHF)</span>
                     <ArrowUpDown className="w-3.5 h-3.5" />
                   </div>
                 </th>

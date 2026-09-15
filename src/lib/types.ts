@@ -1,5 +1,7 @@
 export interface RawPricingRow {
+  clientId?: string;
   client: string;
+  articleId?: string;
   productCode: string;
   productName: string;
   colour: string;
@@ -13,6 +15,7 @@ export interface RawPricingRow {
 export type AnomalyType = "none" | "negative_discount" | "zero_discount" | "extreme_discount";
 
 export interface VariantDetail {
+  articleId?: string;
   productCode: string;
   colour: string;
   size: string;
@@ -28,6 +31,7 @@ export interface VariantDetail {
 
 export interface AggregatedProduct {
   id: string; // client + ':::' + productName
+  clientId?: string;
   client: string;
   productName: string;
   category?: string; // e.g. "Poloshirts", "Jacken", "Hosen"

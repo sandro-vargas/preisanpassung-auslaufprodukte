@@ -149,7 +149,7 @@ export const DataImport: React.FC<DataImportProps> = ({
             Excel-Datei hierher ziehen oder durchsuchen
           </p>
           <p className="text-xs text-slate-500 max-w-xl">
-            Unterstützt .xlsx und .xls mit Spalten wie <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Client</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Product Name</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Size</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Bexio Price</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Discounted Price</code>.
+            Unterstützt .xlsx und .xls mit Spalten wie <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Kunde</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Artikelnummer</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Katalogpreis CHF</code>, <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">Kundenpreis CHF</code> sowie künftige <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">IDs</code>.
           </p>
         </div>
       )}

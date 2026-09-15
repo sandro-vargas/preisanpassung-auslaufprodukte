@@ -62,14 +62,16 @@ export async function parseExcelFile(
     });
   };
 
+  const clientIdKey = findKey(["clientid", "kundenid", "kundeid", "customerid", "client_id", "kunde_id"]);
+  const articleIdKey = findKey(["articleid", "artikelid", "productid", "article_id", "artikel_id"]);
   const clientKey = findKey(["client", "kunde", "kundenname", "customer"]) || "Client";
   const productCodeKey = findKey(["productcode", "artikelnummer", "code", "sku", "artikelnr"]) || "Product Code";
   const productNameKey = findKey(["productname", "produktname", "artikelbezeichnung", "name", "produkt"]) || "Product Name";
   const colourKey = findKey(["colour", "color", "farbe", "farbbezeichnung"]) || "Colour";
   const sizeKey = findKey(["size", "grosse", "grösse", "groesse"]) || "Size";
-  const bexioPriceKey = findKey(["bexioprice", "listenpreis", "bexiopreis", "bruttopreis", "price"]) || "Bexio Price (CHF)";
+  const bexioPriceKey = findKey(["katalogpreis", "listenpreis", "bexiopreis", "bexioprice", "bruttopreis", "katalog", "price"]) || "Bexio Price (CHF)";
   const discountTypeKey = findKey(["discounttype", "rabattart", "rabatt-typ", "type"]) || "Discount Type";
-  const discountedPriceKey = findKey(["discountedprice", "kundenpreis", "abgabepreis", "nettopreis"]) || "Discounted Price (CHF)";
+  const discountedPriceKey = findKey(["kundenpreis", "discountedprice", "abgabepreis", "nettopreis", "sonderpreis", "kundenpreischf"]) || "Discounted Price (CHF)";
   const platformPriceKey = findKey(["b2bplatformprice", "plattformpreis", "b2bpreis", "priceinclvat"]) || "B2B Platform Price incl. VAT (CHF)";
 
   const parsedRows: RawPricingRow[] = [];
@@ -84,6 +86,8 @@ export async function parseExcelFile(
     // Skip empty lines without client or product name
     if (!client && !productName) continue;
 
+    const clientId = clientIdKey && row[clientIdKey] !== undefined ? String(row[clientIdKey]).trim() : undefined;
+    const articleId = articleIdKey && row[articleIdKey] !== undefined ? String(row[articleIdKey]).trim() : undefined;
     const productCode = String(row[productCodeKey] || `ART-${i + 1}`).trim();
     const colour = String(row[colourKey] || "Standard").trim();
     const size = String(row[sizeKey] || "M").trim();
@@ -104,7 +108,9 @@ export async function parseExcelFile(
     const discountType = String(row[discountTypeKey] || "Percentage").trim();
 
     parsedRows.push({
+      clientId,
       client: client || "Unbekannter Kunde",
+      articleId,
       productCode,
       productName: productName || "Unbenanntes Produkt",
       colour,

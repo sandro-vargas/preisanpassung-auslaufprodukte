@@ -331,7 +331,7 @@ export const ProductClientFinder: React.FC<ProductClientFinderProps> = ({
           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
             <div className="flex items-center justify-between text-gray-500 mb-1">
               <span className="text-xs font-medium uppercase tracking-wider">
-                Ø-Abschlag auf Bexio
+                Ø-Abschlag auf Katalogpreis
               </span>
               <Percent className="w-4 h-4 text-amber-600" />
             </div>
@@ -435,7 +435,7 @@ export const ProductClientFinder: React.FC<ProductClientFinderProps> = ({
                       Geführte Grössen
                     </th>
                     <th scope="col" className="px-4 py-3 text-right">
-                      Bexio (CHF)
+                      Katalogpreis (CHF)
                     </th>
                     <th
                       scope="col"
